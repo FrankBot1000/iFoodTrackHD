@@ -1,5 +1,5 @@
 # iFoodTrack HD
-iFoodTrack HD is an iPadOS App built from the ground up using Swift and SwiftUI. It is essentially the iPad version of my iFoodTrack macOS App (Swift/AppKit), built from the ground up using Swift and SwiftUI and designed in the simplist possible way with the iPad's touch interface in mind. It also integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals, build a food diary and track nutrient and food count totals in charts. 
+iFoodTrack HD is the iPad version of my iFoodTrack macOS App (Swift/AppKit), built from the ground up using Swift and SwiftUI and designed in the simplist possible way with the iPad's touch interface in mind. It also integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals, build a food diary and track nutrient and food count totals in charts. 
 
 Like the macOS version, it is organized with a left navigation bar, a middle detail view, for charts and lists, and a right extended details view. However, the right view instead of describing data averages and trends, it describes the nutrient data for the currently selected item in the food list, or describes the current food totals for a selected diary date.
 
