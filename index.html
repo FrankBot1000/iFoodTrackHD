@@ -1,11 +1,11 @@
-<h1>iFoodTrack</h1>
-<p>iFoodTrack is a macOS App built using Swift and AppKit that integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals, build a food diary and track nutrient and food count totals in charts.</p>
-<p>iFoodTrack is organized with a left navigation bar, a middle detail view, for charts and lists, and a right extended details view describing data averages and trends.</p>
-<p>You can save/open food diary and favorites files, and export data in csv format. Nutrient data can be tracked over time in pie charts, bar charts and stacked-bar charts, with related-foods listed below charts.
+<h1>iFoodTrack HD</h1>
+<p>iFoodTrack HD is an iPadOS App built from the ground up using Swift and SwiftUI. It is essentially the iPad version of my iFoodTrack macOS App (Swift/AppKit), built from the ground up using Swift and SwiftUI and designed in the simplist possible way with the iPad's touch interface in mind. It also integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals, build a food diary and track nutrient and food count totals in charts.</p>
+<p>Like the macOS version, it is organized with a left navigation bar, a middle detail view, for charts and lists, and a right extended details view. However, the right view instead of describing data averages and trends, it describes the nutrient data for the currently selected item in the food list, or describes the current food totals for a selected diary date.</p>
+<p>Currently, the mac version have more features, like file saving/exporting capabilities and more complex chart types. The mac version also uses custom built charts, while this iPadOS version is using Apple's Swift Charts API.
 <br></br></p>
-<h2>Available on the Mac AppStore:</h2>
-<a href="https://apps.apple.com/us/app/ifoodtrack/id6467825539"> 
-	<img src="images/pics/Download_on_the_Mac_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on Mac App Store"</img> 
+<h2>Available on the iOS AppStore:</h2>
+<a href="https://apps.apple.com/us/app/ifoodtrack/id6593659637"> 
+	<img src="images/pics/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on Mac App Store"</img> 
 </a>
 <br></br>
 <h1>Technologies Used</h1>
@@ -13,14 +13,13 @@
 <ul>
 <li>Swift Programming language</li>
 <li>Assembly Language</li>
-<li>AppKit framework</li>
+<li>SwiftUI framework</li>
 <li>SwiftUI (SubscriptionStoreView)</li>
 </ul>
 <h2>Apple Technologies</h2>
 <ul>
-<li>Core Data</li>
-<li>Core Graphics</li>
-<li>AutoLayout</li>
+<li>Swift Charts</li>
+<li>StoreKit</li>
 <li>Unit Testing</li>
 <li>Documentation (DocC)</li>
 </ul>
@@ -29,15 +28,15 @@
 <li>Git Version Control
 <br></br></li>
 </ul>
-<h1>iFoodTrack Animation</h1>
+<h1>iFoodTrackHD Animation</h1>
 <!-- 
 <p><video width="500" src="https://github.com/user-attachments/assets/128c86cc-3137-4106-a06d-f2b5cd8137f2">
 </video></p>
  -->
 <figure>
 	<div>
-		<video width="500" controls poster="images/screenshots/01 iFTmacOS Diary Fish Item 051525.png" muted preload="auto">
-			<source src="videos/iFoodTrack_Mac_compressed 052325.mp4" type="video/mp4">
+		<video width="500" controls poster="videos/02b iFTiPad Favorites Restaurant Fish Fillet ABS 051725.png" muted preload="auto">
+			<source src="videos/iFTiPadOS_iPad12_9inch_landscape_compressed.mp4" type="video/mp4">
 			<!- - For non-HTML5 browsers: - ->
 			Your browser doesn't support the video tag. Click <a href=http://www.firefox.com>here</a> 
 			to download the Firefox browser for your operating system.
@@ -45,9 +44,9 @@
 	</div>
 </figure>
 
-<h1>An AppKit Project using Programmatic-UI…</h1>
-<p>Rather than using Xcode’s Interface Builder and Cocoa Bindings for building and connecting Views, iFoodTrack views and window components were built using only Programmatic-UI. By doing everything programmatically, it allowed me to better manage an organized and structured code base under git source control. It also gave me a deeper appreciation for how things like UITableView and window components are built. Another challenge was building a navigation system using protocols and delegates to communicate data changes for different parts of the App.</p>
-<p>In order to achieve backward compatibility with older macOS versions, charts for displaying nutrient and food count data were built from the ground up. This included the updating and formatting of x- and y- axis values and labels, a y-axis average-value dashed-line, and a mouse-tracking vertical line for selecting individual dates in bar charts to show updated daily data.
+<h1>Rebuilding a macOS AppKit project as an iPadOS SwiftUI project...</h1>
+<p>iFoodTrack was originally designed and built for macOS using Swift, AppKit and Programmatic-UI. It's navigation layout and complexity favours a desktop-style window application. I finally gave in to the many request for the iPad version, and decided to start from the ground-up using SwiftUI. It was an opportunity to the give App a fresh start that demanded a more simplified layout on the iPad. It was also a chance to implement SwiftUI-like declarative programming paradigms. Rather than using Xcode’s Interface Builder and Cocoa Bindings for building and connecting Views, iFoodTrack views and window components were built using only Programmatic-UI.</p>
+<p>I assumed that there would be brick walls to break through, given the new nature of SwiftUI, but that using this newer declarative programming style and less writing of UI code would compensate for the slow downs in development. It was definitely a bit of a mind-f__k at the start, when applying declarative programming, but overall the processes has been a good investment.
 <br></br></p>
 <h2>Sample Code:</h2>
 <h3>Plotting daily nutrient totals in time-bar charts:</h3>
@@ -257,45 +256,40 @@ extension FBMainSplitVC: FBNavigationDelegate {
 <table>
 	<tr>
 		<td>
-		<img src="images/screenshots/01 iFTmacOS Diary Fish Item 051525.png" alt="iFoodTrack Diary View" width="500"/>
+		<img src="images/screenshots/01 Log Meals In Your Food Diary 051725b.png" alt="iFoodTrack Diary View" width="500"/>
 		</td>
 		<td>
-		<img src="images/screenshots/02a iFTmacOS Time Chart Dark 051525.png" alt="iFoodTrack Diary Dark" width="500"/>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<img src="images/screenshots/02b iFTmacOS Time Chart Single Item Banana 051525.png" alt="iFoodTrack Time Chart" width="500"/>
-		</td>
-		<td>
-		<img src="images/screenshots/02c iFTmacOS Time Chart Protein-Carb-Fat 051525.png" alt="iFoodTrack Trash View" width="500"/>
+		<img src="images/screenshots/02 Search Foods and Save Favorites 051725b.png" alt="iFoodTrack Diary Dark" width="500"/>
 		</td>
 	</tr>
 	<tr>
 		<td>
-		<img src="images/screenshots/05a iFTmacOS Meals Dinner Fish 051525.png" alt="Settings Appearance" width="500"/>
+		<img src="images/screenshots/03 Create Meals for Quick Logging 051725b.png" alt="iFoodTrack Time Chart" width="500"/>
 		</td>
 		<td>
-		<img src="images/screenshots/06b iFTmacOS Trash Cookie Dark Selection 051525.png" alt="Settings Advanced" width="500"/>
+		<img src="images/screenshots/04 View Daily Weekly Monthly Charts 051725b.png" alt="iFoodTrack Trash View" width="500"/>
 		</td>
 	</tr>
 	<tr>
 		<td>
-		<img src="images/screenshots/07b iFTmacOS Settings Appearance 051525.png" alt="Settings Charts" width="500"/>
+		<img src="images/screenshots/05 Fine-Tune Nutrient Settings and Look 051725b.png" alt="Settings Appearance" width="500"/>
 		</td>
 		<td>
-		<img src="images/screenshots/07d iFTmacOS Settings Advanced 051525.png" alt="Settings Demo" width="500"/>
+		<img src="images/screenshots/06 Customize Look Switch to Dark Mode 051725b.png" alt="Settings Advanced" width="500"/>
 		</td>
 	</tr>
 </table>
 <h2>I’ve implemented the following:</h2>
 <h4>Code Structure</h4>
 <ul>
-<li>Model-View-Controller Design Pattern</li>
-<li>Delegates and Protocols, NSViewController/NSView</li>
+<li>Model-View-View-Model (MVVM) Design Pattern</li>
+<li>Delegates and Protocols</li>
 <li>Navigation Split Views</li>
 <li>Generics for Core Data objects</li>
-<li>InterOp with SwiftUI; implemented SubscriptionStoreView</li>
+<li>Swift Charts</li>
+<li>Linear Progress Bar Views</li>
+<li>Apple Health Syncing</li>
+<li>Voice Over Accessibility</li>
 </ul>
 <h4>Testing/Error Handling</h4>
 <ul>
@@ -308,10 +302,7 @@ extension FBMainSplitVC: FBNavigationDelegate {
 </ul>
 <h4>Security</h4>
 <ul>
-<li>Runtime check for debugger, in Assembly</li>
-<li>Image Asset Validation, in Assembly</li>
-<li>UserDefaults in Keychain</li>
-<li>Username/Password validation</li>
+<li>Validation checks, in Assembly</li>
 </ul>
 <h4>User Customizations</h4>
 <ul>
@@ -326,11 +317,10 @@ extension FBMainSplitVC: FBNavigationDelegate {
 <li>Code Documentation (DocC)</li>
 <li>Privacy Manifest</li>
 <li>Group Folder Organization</li>
-<li>Help Book Manual</li>
 </ul>
 <h1>Future Considerations</h1>
 <ul>
-<li>Sync with HealthKit, for newer macOS versions</li>
+<li>More SwiftCharts, with trends over time.</li>
 <li>Implement Core Data’s CloudKit syncing</li>
 </ul>
 <h1>FeedBack</h1>
