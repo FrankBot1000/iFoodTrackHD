@@ -24,6 +24,7 @@ Currently, the mac version has more features, like file saving/exporting capabil
 * Swift Charts
 * StoreKit
 * Unit Testing
+* Accessibility (Voice Over)
 * Documentation (DocC)
 
 ## Other
