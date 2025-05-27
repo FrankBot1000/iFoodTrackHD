@@ -359,7 +359,9 @@ struct ThickProgressViewStyle: ProgressViewStyle {
 ## I've implemented the following:
 #### Code Structure
 * Model-View-View-Model (MVVM) Design Pattern
-* SwiftUI Bindings, @StateObject, @ObservableObject, @EnvironmentObject
+* SwiftUI components: 
+	* ObservableObject, @EnvironmentObject, @ObservedObject, @StateObject
+	* @State, @FocusState, @Binding
 * Delegates and Protocols
 * Navigation Split Views
 * Generics for Core Data objects
