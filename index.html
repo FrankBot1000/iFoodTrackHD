@@ -1,48 +1,39 @@
-# iFoodTrack
-iFoodTrack is a macOS App built using Swift and AppKit that integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals from favorites, build a food diary and track nutrient and food count totals in charts. 
-
-iFoodTrack is organized with a left navigation bar, a middle detail view, for charts and lists, and a right extended details view describing data averages and trends. 
-
-You can save/open food diary and favorites files, and export data in csv format. Nutrient data can be tracked over time in pie charts, bar charts and stacked-bar charts, with related-foods listed below charts.
-<br></br>
-
-
+<h1>iFoodTrack</h1>
+<p>iFoodTrack is a macOS App built using Swift and AppKit that integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals, build a food diary and track nutrient and food count totals in charts.</p>
+<p>iFoodTrack is organized with a left navigation bar, a middle detail view, for charts and lists, and a right extended details view describing data averages and trends.</p>
+<p>You can save/open food diary and favorites files, and export data in csv format. Nutrient data can be tracked over time in pie charts, bar charts and stacked-bar charts, with related-foods listed below charts.
+<br></br></p>
 <h2>Available on the Mac AppStore:</h2>
 <a href="https://apps.apple.com/us/app/ifoodtrack/id6467825539"> 
 	<img src="images/pics/Download_on_the_Mac_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on Mac App Store"</img> 
 </a>
 <br></br>
-
-
-# Technologies Used
-## Languages and Frameworks							
-* Swift Programming language
-* Assembly Language
-* AppKit framework
-* SwiftUI (SubscriptionStoreView)
-
-## Apple Technologies
-* Core Data
-* Core Graphics
-* AutoLayout
-* Unit Testing
-* Documentation (DocC)
-
-## Other
-* Git Version Control
-<br></br>
-
-
-# iFoodTrack Animation
-[//]: # "NB: For README.md Github videos, Use GitHub asset urls eg. https://github.com/user-attachments/assets/xxxxxPlaceholderFileNameHerexxxxx as video source (derived first by dragging-dropping a video within the README.md file to get the url)."
-<video width="500" src="https://github.com/user-attachments/assets/8b58453f-f182-4ddb-9d8a-86c44d8a078b">
-</video>
-
-
-
-
-[//]: # "For webpage, use embedded below figure instead"
+<h1>Technologies Used</h1>
+<h2>Languages and Frameworks</h2>
+<ul>
+<li>Swift Programming language</li>
+<li>Assembly Language</li>
+<li>AppKit framework</li>
+<li>SwiftUI (SubscriptionStoreView)</li>
+</ul>
+<h2>Apple Technologies</h2>
+<ul>
+<li>Core Data</li>
+<li>Core Graphics</li>
+<li>AutoLayout</li>
+<li>Unit Testing</li>
+<li>Documentation (DocC)</li>
+</ul>
+<h2>Other</h2>
+<ul>
+<li>Git Version Control
+<br></br></li>
+</ul>
+<h1>iFoodTrack Animation</h1>
 <!-- 
+<p><video width="500" src="https://github.com/user-attachments/assets/128c86cc-3137-4106-a06d-f2b5cd8137f2">
+</video></p>
+ -->
 <figure>
 	<div>
 		<video width="500" controls poster="images/screenshots/01 iFTmacOS Diary Fish Item 051525.png" muted preload="auto">
@@ -53,29 +44,24 @@ You can save/open food diary and favorites files, and export data in csv format.
 		</video>
 	</div>
 </figure>
- -->
 
-# An AppKit Project using Programmatic-UI...
-Rather than using Xcode's Interface Builder and Cocoa Bindings for building and connecting Views, iFoodTrack views and window components were built using only Programmatic-UI. By doing everything programmatically, it allowed me to better manage an organized and structured code base under git source control. It also gave me a deeper appreciation for how things like NSTableView and window components are built. Another challenge was building a navigation system using protocols and delegates to communicate data changes for different parts of the App.
-
-In order to achieve backward compatibility with older macOS versions, charts for displaying nutrient and food count data were built from the ground up. This included the updating and formatting of x- and y- axis values and labels, a y-axis average-value dashed-line, and a mouse-tracking vertical line for selecting individual dates in bar charts to show updated daily data.
-<br></br>
-
-
-## Sample Code:
-### Plotting daily nutrient totals in time-bar charts:
-```swift
-/// Will draw nutrient-specific nutrient total value per date bar of bar graph.
+<h1>An AppKit Project using Programmatic-UI…</h1>
+<p>Rather than using Xcode’s Interface Builder and Cocoa Bindings for building and connecting Views, iFoodTrack views and window components were built using only Programmatic-UI. By doing everything programmatically, it allowed me to better manage an organized and structured code base under git source control. It also gave me a deeper appreciation for how things like UITableView and window components are built. Another challenge was building a navigation system using protocols and delegates to communicate data changes for different parts of the App.</p>
+<p>In order to achieve backward compatibility with older macOS versions, charts for displaying nutrient and food count data were built from the ground up. This included the updating and formatting of x- and y- axis values and labels, a y-axis average-value dashed-line, and a mouse-tracking vertical line for selecting individual dates in bar charts to show updated daily data.
+<br></br></p>
+<h2>Sample Code:</h2>
+<h3>Plotting daily nutrient totals in time-bar charts:</h3>
+<pre><code class="language-swift">/// Will draw nutrient-specific nutrient total value per date bar of bar graph.
     func drawBarGraphDataSegments(_ cgContext: CGContext?) {
         let lineWidth    = 2.0                              // initialize with zero value
         var y            = lineWidth - 1.0 + xLabelHeight   // start half way up width of axis line
         
-        // total the value of all bars ( = "segments") by using reduce to sum them
+        // total the value of all bars ( = &quot;segments&quot;) by using reduce to sum them
         guard let maxValue  = segments.map({Double($0.value)}).max() else { return }
-        var maxBarHeight    = maxValue > 0 ? maxValue : 100.0   // protects against dividing by zero.
+        var maxBarHeight    = maxValue &gt; 0 ? maxValue : 100.0   // protects against dividing by zero.
         
         // Check if drv100Percent value is greater than maxValue, then set max to drv100Percent value
-        maxBarHeight        = drv100PercentValue >= maxValue ? drv100PercentValue : maxValue
+        maxBarHeight        = drv100PercentValue &gt;= maxValue ? drv100PercentValue : maxValue
         
         let roundedRect     = FBRoundedRect(radius: 2.5, corners: [.bottomLeft, .bottomRight])
         // To round the top of bar, use bottomLeft and bottomRight, since drawing starts from bottom to top
@@ -84,7 +70,7 @@ In order to achieve backward compatibility with older macOS versions, charts for
         for (index, segment) in segments.enumerated() {
             let i: CGFloat  = CGFloat(index)
             let x: CGFloat  = i * (barWidth + spacing) + offset + yLabelHeight
-            let value       = segment.value > 0 ? segment.value : 0 // set to zero if value is negative.
+            let value       = segment.value &gt; 0 ? segment.value : 0 // set to zero if value is negative.
             
             let barHeight   = (value/maxBarHeight * (viewHeight - xLabelHeight))
             if barHeight == 0 { continue }  // If barHeight was zero, then skip drawing the bar! Prevents drawing artifacts on X-Axis.
@@ -100,13 +86,10 @@ In order to achieve backward compatibility with older macOS versions, charts for
             y = lineWidth - 1.0 + xLabelHeight     // reset y
         }
     }
-```
-<br></br>
-
-
-### A test for validating nutrient value calculations:
-```swift
-/// Test will test Food Nutrient DRV percent calculation using DRV nutrient defaults. The result should yield 100% for all DRV Nutrient calculations.
+</code></pre>
+<p><br></br></p>
+<h3>A test for validating nutrient value calculations:</h3>
+<pre><code class="language-swift">/// Test will test Food Nutrient DRV percent calculation using DRV nutrient defaults. The result should yield 100% for all DRV Nutrient calculations.
     func testCalculateNutValues_recalculateDRVPercent() {
         // Arrange
         let other6NutItemIndexes: [kNutrientNameIndex] = FBDRVSettingsHelper.shared.nutNameIndexes
@@ -139,7 +122,7 @@ In order to achieve backward compatibility with older macOS versions, charts for
 
         // Iterate through all nutrients, based on nutrient name case number (index) in kNutrientNameIndex enum:
         for n in nutNumbers {
-            nutrients.append(FDRNutrient(amount: nutDRV.nutrientDRVDict[kNutrientNameIndex(rawValue: n)!], nutrient: FDRNutInfo(id: nutIDs[n], number: "0", name: nutNames[n], rank: 0, unitName: nutModifers[n])))
+            nutrients.append(FDRNutrient(amount: nutDRV.nutrientDRVDict[kNutrientNameIndex(rawValue: n)!], nutrient: FDRNutInfo(id: nutIDs[n], number: &quot;0&quot;, name: nutNames[n], rank: 0, unitName: nutModifers[n])))
         }
         
         
@@ -148,9 +131,9 @@ In order to achieve backward compatibility with older macOS versions, charts for
         let graphVC = FBGraphVC()
         
 //        let expectedOtherNutIDsArrays: [FBNutAmountsAndLabels] = [
-//        FBNutAmountsAndLabels(nutAmounts: (drvAmounts: [100, 100], absAmounts: [20, 28]), nutLabels: (drvLabels: ["%", "%"], absLabels: ["g", "g"])),
-//        FBNutAmountsAndLabels(nutAmounts: (drvAmounts: [100, 100], absAmounts: [90, 300]), nutLabels: (drvLabels: ["%", "%"], absLabels: ["g", "mg"])),
-//        FBNutAmountsAndLabels(nutAmounts: (drvAmounts: [100, 100], absAmounts: [1300, 2300]), nutLabels: (drvLabels: ["%", "%"], absLabels: ["mg", "mg"]))
+//        FBNutAmountsAndLabels(nutAmounts: (drvAmounts: [100, 100], absAmounts: [20, 28]), nutLabels: (drvLabels: [&quot;%&quot;, &quot;%&quot;], absLabels: [&quot;g&quot;, &quot;g&quot;])),
+//        FBNutAmountsAndLabels(nutAmounts: (drvAmounts: [100, 100], absAmounts: [90, 300]), nutLabels: (drvLabels: [&quot;%&quot;, &quot;%&quot;], absLabels: [&quot;g&quot;, &quot;mg&quot;])),
+//        FBNutAmountsAndLabels(nutAmounts: (drvAmounts: [100, 100], absAmounts: [1300, 2300]), nutLabels: (drvLabels: [&quot;%&quot;, &quot;%&quot;], absLabels: [&quot;mg&quot;, &quot;mg&quot;]))
 //        ]
         
         // Act
@@ -167,13 +150,10 @@ In order to achieve backward compatibility with older macOS versions, charts for
         XCTAssert(drvOtherNutIdsAmounts == expectedDRVOtherNutIdsAmounts)
         
     }
-```
-<br></br>
-
-
-### A test to confirm conversion of double values to scientific notation, for display in chart y-axis labels:
-```swift
-    func testConvertDoubleToSciNotationForGraph() {
+</code></pre>
+<p><br></br></p>
+<h3>A test to confirm conversion of double values to scientific notation, for display in chart y-axis labels:</h3>
+<pre><code class="language-swift">    func testConvertDoubleToSciNotationForGraph() {
         // Given
         let segmentValues = [0,
                             1,
@@ -191,23 +171,23 @@ In order to achieve backward compatibility with older macOS versions, charts for
         numFormatter.numberStyle = .scientific
 
         for segmentValue in segmentValues {
-            let myNum_sciString     = numFormatter.string(for: segmentValue) ?? ""
+            let myNum_sciString     = numFormatter.string(for: segmentValue) ?? &quot;&quot;
             
             // When
             let myNum_beforeDecimal   = myNum_sciString.prefix(3)
             
-            // Will include "E" if was a whole number or zero, so only keep first character:
-            var myNum_coefficientPart = myNum_beforeDecimal // NB: will contain "E" when is a whole number or zero.
-            if myNum_coefficientPart.contains("E") {
+            // Will include &quot;E&quot; if was a whole number or zero, so only keep first character:
+            var myNum_coefficientPart = myNum_beforeDecimal // NB: will contain &quot;E&quot; when is a whole number or zero.
+            if myNum_coefficientPart.contains(&quot;E&quot;) {
                 myNum_coefficientPart.removeLast(2)
             }
             
-            let exponentEIndex      = myNum_sciString.firstIndex(of: "E") // will need to access original 'myNum_sciString' with it's "E" part.
+            let exponentEIndex      = myNum_sciString.firstIndex(of: &quot;E&quot;) // will need to access original 'myNum_sciString' with it's &quot;E&quot; part.
             var myNum_exponent      = myNum_sciString.suffix(from: exponentEIndex!)
             _                       = myNum_exponent.removeFirst()      // removes, and returns, first element
             let exponentWithoutE    = String(myNum_exponent)
             
-            print("\(myNum_coefficientPart) x 10E\(exponentWithoutE)")
+            print(&quot;\(myNum_coefficientPart) x 10E\(exponentWithoutE)&quot;)
 //            0 x 10E0
 //            1 x 10E0
 //            1.2 x 10E0
@@ -220,17 +200,14 @@ In order to achieve backward compatibility with older macOS versions, charts for
 //            1.2 x 10E-3
             
             // Then
-            XCTAssert(myNum_beforeDecimal.count != 0, "There's nothing to represent the decimal part!")
-            XCTAssert(exponentWithoutE != "", "There's no exponent value")
+            XCTAssert(myNum_beforeDecimal.count != 0, &quot;There's nothing to represent the decimal part!&quot;)
+            XCTAssert(exponentWithoutE != &quot;&quot;, &quot;There's no exponent value&quot;)
         }
     }
-```
-<br></br>
-
-
-### Sample code structure for App Navigation:
-```swift
-// MARK: - FBNavigationDelegate Methods
+</code></pre>
+<p><br></br></p>
+<h3>Sample code structure for App Navigation:</h3>
+<pre><code class="language-swift">// MARK: - FBNavigationDelegate Methods
 extension FBMainSplitVC: FBNavigationDelegate {
     
     /// Set the middleVC based on selected Navigation Bar in leftVC.
@@ -249,8 +226,8 @@ extension FBMainSplitVC: FBNavigationDelegate {
     
     /// Sets up Library Graph and Library FoodList view controllers.
     ///
-    /// A "mini" library of all_SRRFoods_library is loaded from disk.
-    func libraryGraphAndFoodListVCs() -> (FBMiddleGraphVC, FBMiddleListVC) {
+    /// A &quot;mini&quot; library of all_SRRFoods_library is loaded from disk.
+    func libraryGraphAndFoodListVCs() -&gt; (FBMiddleGraphVC, FBMiddleListVC) {
         let graphVC             = FBLibraryGraphVC(chartView: FBPieGraphView(frame: .zero))
         let graphTopToolBarVC   = FBGraphTopToolBarVC(identifier: .topToolBarVCID_libraryGraph)
         
@@ -274,11 +251,9 @@ extension FBMainSplitVC: FBNavigationDelegate {
         return (topVC, bottomVC)
     }
     ... ...
-```
-<br></br>
-
-
-# Sample Screen Shots
+</code></pre>
+<p><br></br></p>
+<h1>Sample Screen Shots</h1>
 <table>
 	<tr>
 		<td>
@@ -313,54 +288,50 @@ extension FBMainSplitVC: FBNavigationDelegate {
 		</td>
 	</tr>
 </table>
-
-
-## I've implemented the following:
-#### Code Structure
-* Model-View-Controller Design Pattern
-* Delegates and Protocols, NSViewController/NSView
-* Navigation Split Views
-* Generics for Core Data objects
-* InterOp with SwiftUI; implemented SubscriptionStoreView
-
-#### Testing/Error Handling
-* Unit Testing
-* Error Handling
-* Alerts
-* Empty States
-* Random Generation of Sample Test Data
-* Text Input Validation
-
-#### Security
-* Runtime Check for Debugger, in Assembly
-* Image Asset Validation, in Assembly
-* UserDefaults in Keychain
-* Username/Password validation
-
-#### User Customizations
-* Settings Startup Options
-* Unit Conversions
-* Theme Colors
-* Custom Threshold Values
-* Light and Dark Mode Selections
-
-#### Project Organization
-* Code Documentation (DocC)
-* Privacy Manifest
-* Group Folder Organization
-* Help Book Manual
-
-
-# Future Considerations
-* Sync with HealthKit, for newer macOS versions
-* Implement Core Data's CloudKit syncing
-* InterOp with SwiftUI, to implement SwiftCharts for newer macOS versions
-<br></br>
-
-
-# FeedBack
+<h2>I’ve implemented the following:</h2>
+<h4>Code Structure</h4>
+<ul>
+<li>Model-View-Controller Design Pattern</li>
+<li>Delegates and Protocols, NSViewController/NSView</li>
+<li>Navigation Split Views</li>
+<li>Generics for Core Data objects</li>
+<li>InterOp with SwiftUI; implemented SubscriptionStoreView</li>
+</ul>
+<h4>Testing/Error Handling</h4>
+<ul>
+<li>Unit Testing</li>
+<li>Error Handling</li>
+<li>Alerts</li>
+<li>Empty States</li>
+<li>Random Generation of Sample Test Data</li>
+<li>Text Input Validation</li>
+</ul>
+<h4>Security</h4>
+<ul>
+<li>Runtime check for debugger, in Assembly</li>
+<li>Image Asset Validation, in Assembly</li>
+<li>UserDefaults in Keychain</li>
+<li>Username/Password validation</li>
+</ul>
+<h4>User Customizations</h4>
+<ul>
+<li>Settings Startup Options</li>
+<li>Unit Conversions</li>
+<li>Theme Colors</li>
+<li>Custom Threshold Values</li>
+<li>Light and Dark Mode Selections</li>
+</ul>
+<h4>Project Organization</h4>
+<ul>
+<li>Code Documentation (DocC)</li>
+<li>Privacy Manifest</li>
+<li>Group Folder Organization</li>
+<li>Help Book Manual</li>
+</ul>
+<h1>Future Considerations</h1>
+<ul>
+<li>Sync with HealthKit, for newer macOS versions</li>
+<li>Implement Core Data’s CloudKit syncing</li>
+</ul>
+<h1>FeedBack</h1>
 <p class="contact-message">If you have any feedback or suggestions you can reach out via <a class="btn" href="mailto:fbotlogic@fbotlogicsolutions.com?subject=Blue Marble Weather Support">Email</a>.</p>
-
-
-
-
