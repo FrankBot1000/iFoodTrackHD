@@ -33,7 +33,7 @@ Currently, the mac version have more features, like file saving/exporting capabi
 
 # iFoodTrack HD Animation
 [//]: # "NB: For README.md Github videos, Use GitHub asset urls eg. https://github.com/user-attachments/assets/xxxxxPlaceholderFileNameHerexxxxx as video source (derived first by dragging-dropping a video within the README.md file to get the url)."
-<video width="500" src="https://github.com/user-attachments/assets/8b58453f-f182-4ddb-9d8a-86c44d8a078b">
+<video width="500" src="https://github.com/user-attachments/assets/2f39ee2e-adb5-43f3-8868-087103ee7b5b">
 </video>
 
 
