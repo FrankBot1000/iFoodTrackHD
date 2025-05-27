@@ -61,42 +61,51 @@ I assumed that there would be brick walls to break through, given the newer natu
 
 
 ## Sample Code:
-### Plotting daily nutrient totals in time-bar charts:
+### A test for reading HealthKit Sample Data::
 ```swift
-/// Will draw nutrient-specific nutrient total value per date bar of bar graph.
-    func drawBarGraphDataSegments(_ cgContext: CGContext?) {
-        let lineWidth    = 2.0                              // initialize with zero value
-        var y            = lineWidth - 1.0 + xLabelHeight   // start half way up width of axis line
+/// Read HKSampleType data. Will fail if permissions not set in test Simulator Clone's System Settings for the Health App, and/or if Privacy key-value pairs not set for FBHealthKitTests unit testing bundle info.plist.
+    ///
+    /// In Health App, set the Nutrition/Dietary Energy Burned value for today to "1350" for the Simulator Clone that runs the test. Is same value used by kMockData.fdrFoodsWithRandomDates.first FDRFood that has a calories value of 1350.
+    ///
+    /// Also, within the Clone's System Settings, enable permissions for reading Health Nutrition data (for dietary Energy Burned value that's read in this method).
+    ///
+    /// And, for the FBHealthKitTests target unit test bundle, include Privacy - Health Share Usage Description and Update Usage Description Info.plist key-values.
+    func testGetHKSampleType_readHealthKitSampleData() {
+        // Given
+        let identifier: HKQuantityTypeIdentifier = .dietaryEnergyConsumed
+        var quantity: Double = 0.0
         
-        // total the value of all bars ( = "segments") by using reduce to sum them
-        guard let maxValue  = segments.map({Double($0.value)}).max() else { return }
-        var maxBarHeight    = maxValue > 0 ? maxValue : 100.0   // protects against dividing by zero.
-        
-        // Check if drv100Percent value is greater than maxValue, then set max to drv100Percent value
-        maxBarHeight        = drv100PercentValue >= maxValue ? drv100PercentValue : maxValue
-        
-        let roundedRect     = FBRoundedRect(radius: 2.5, corners: [.bottomLeft, .bottomRight])
-        // To round the top of bar, use bottomLeft and bottomRight, since drawing starts from bottom to top
-        
-        // Loop through the values array:
-        for (index, segment) in segments.enumerated() {
-            let i: CGFloat  = CGFloat(index)
-            let x: CGFloat  = i * (barWidth + spacing) + offset + yLabelHeight
-            let value       = segment.value > 0 ? segment.value : 0 // set to zero if value is negative.
-            
-            let barHeight   = (value/maxBarHeight * (viewHeight - xLabelHeight))
-            if barHeight == 0 { continue }  // If barHeight was zero, then skip drawing the bar! Prevents drawing artifacts on X-Axis.
-            
-            let bar         = CGRect(x: x, y: y, width: barWidth, height: barHeight)
-            var path        = CGPath(rect: .zero, transform: nil)
-            path            = roundedRect.path(in: bar) ?? CGPath(roundedRect: bar, cornerWidth: 2.5, cornerHeight: 2.5, transform: .none)
-            
-            cgContext?.setFillColor(self.nutrientColor.cgColor)
-            cgContext?.addPath(path)
-            cgContext?.fillPath()
-            
-            y = lineWidth - 1.0 + xLabelHeight     // reset y
+        // When
+        guard let sampleType = HKSampleType.quantityType(forIdentifier: identifier) else {
+            print("\(identifier.rawValue) sample Type is no longer available in HealthKit")
+            return
         }
+        
+        let asyncDataSetAssetExpectation = expectation(description: "asyncHealthKitExpectation")
+        
+        FBHealthKit.getHKSampleType(sampleType, date: Date()) { (sample, error) in
+            guard let sample = sample else {
+                if let error = error {
+                    print("There was an error retreiving sample type: \(error)")
+                }
+                // Then
+                asyncDataSetAssetExpectation.fulfill()
+                quantity = sample?.quantity.doubleValue(for: HKUnit.kilocalorie()) ?? 0.0
+                print("error... quantity: \(quantity)")
+                XCTAssert(quantity == 1350, "Quantity was not 1350.0 kCal.")
+                return
+            }
+            
+            // Then
+            asyncDataSetAssetExpectation.fulfill()
+            print("sample: \(sample)")
+            quantity = sample.quantity.doubleValue(for: HKUnit.kilocalorie())
+            print("quantity: \(quantity)")
+        }
+        self.wait(for: [asyncDataSetAssetExpectation], timeout: 10)
+        
+        // Then
+        XCTAssert(quantity == 1350.0, "Quantity was not 1350.0 kCal.")
     }
 ```
 <br></br>
@@ -169,109 +178,151 @@ I assumed that there would be brick walls to break through, given the newer natu
 <br></br>
 
 
-### A test to confirm conversion of double values to scientific notation, for display in chart y-axis labels:
+### Building a Calendar Date Picker for the Food Diary that includes Voice-over accessibility::
 ```swift
-    func testConvertDoubleToSciNotationForGraph() {
-        // Given
-        let segmentValues = [0,
-                            1,
-                             1.2,
-                             1.23,
-                             1.2345678,
-                            1234,
-                             1234.5678,
-                             0.12345678,
-                             0.012345678,
-                             0.0012345678]
-
-        let numFormatter = NumberFormatter()
-        numFormatter.maximumFractionDigits = 1
-        numFormatter.numberStyle = .scientific
-
-        for segmentValue in segmentValues {
-            let myNum_sciString     = numFormatter.string(for: segmentValue) ?? ""
-            
-            // When
-            let myNum_beforeDecimal   = myNum_sciString.prefix(3)
-            
-            // Will include "E" if was a whole number or zero, so only keep first character:
-            var myNum_coefficientPart = myNum_beforeDecimal // NB: will contain "E" when is a whole number or zero.
-            if myNum_coefficientPart.contains("E") {
-                myNum_coefficientPart.removeLast(2)
+struct CalendarDatePicker: View {
+    @Binding var selectedDate: Date
+    
+    var selectedDate_MDY: String {
+        selectedDate.formatted(date: .abbreviated, time: .omitted)
+    }
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            Button {
+                print("Date Back Button.")
+                selectedDate = selectedDate.increment(by: -1)
+            } label: {
+                Image(systemName: kSFSymbolName.backward)
+                    .font(.system(size: 20.0))
             }
+            .accessibilityRemoveTraits(.isButton)
+            .accessibilityLabel(Text("Decrease Date Button. Date: \(selectedDate_MDY)."))
             
-            let exponentEIndex      = myNum_sciString.firstIndex(of: "E") // will need to access original 'myNum_sciString' with it's "E" part.
-            var myNum_exponent      = myNum_sciString.suffix(from: exponentEIndex!)
-            _                       = myNum_exponent.removeFirst()      // removes, and returns, first element
-            let exponentWithoutE    = String(myNum_exponent)
+            DatePicker("", selection: $selectedDate, displayedComponents: [.date])
+                .frame(width: 100.0) //...need a fixed width for system to center it.
+                .padding([.leading, .trailing], 20.0)
             
-            print("\(myNum_coefficientPart) x 10E\(exponentWithoutE)")
-//            0 x 10E0
-//            1 x 10E0
-//            1.2 x 10E0
-//            1.2 x 10E0
-//            1.2 x 10E0
-//            1.2 x 10E3
-//            1.2 x 10E3
-//            1.2 x 10E-1
-//            1.2 x 10E-2
-//            1.2 x 10E-3
+            Button {
+                print("Date Forward Button.")
+                selectedDate = selectedDate.increment(by: 1)
+            } label: {
+                Image(systemName: kSFSymbolName.forward)
+                    .font(.system(size: 20.0))
+            }
+            .accessibilityRemoveTraits(.isButton)
+            .accessibilityLabel(Text("Increase Date Button. Date: \(selectedDate_MDY)."))
             
-            // Then
-            XCTAssert(myNum_beforeDecimal.count != 0, "There's nothing to represent the decimal part!")
-            XCTAssert(exponentWithoutE != "", "There's no exponent value")
+            Spacer()
         }
     }
+}
 ```
 <br></br>
 
 
-### Sample code structure for App Navigation:
+### A ProgressThresholds ObservableObject that sets and saves threshold values for Linear ProgressViews:
 ```swift
-// MARK: - FBNavigationDelegate Methods
-extension FBMainSplitVC: FBNavigationDelegate {
+class ProgressThresholds: ObservableObject {
+    @AppStorage("lowValue") private var lowValueSetting: Double = 20.0
+    @AppStorage("midValue") private var midValueSetting: Double = 60.0
+    @AppStorage("hiValue") private var hiValueSetting: Double   = 80.0
     
-    /// Set the middleVC based on selected Navigation Bar in leftVC.
-    func setMiddleVC_forNavBar(at navBarIndex: kNavBarIndex) {
-        var middleVCs: (graph: FBMiddleGraphVC, list: FBMiddleListVC)
-        switch navBarIndex {
-            case .library:      middleVCs = libraryGraphAndFoodListVCs()
-            case .favorites:    middleVCs = favoritesGraphAndFoodListVCs()
-            case .diary:        middleVCs = diaryGraphAndFoodListVCs()
-            case .timeChart:    middleVCs = timeChartGraphAndFoodListVCs()
-            case .trash:        middleVCs = trashGraphAndFoodListVCs()
+    @Published var lowValue: Double = 20.0
+    @Published var midValue: Double = 60.0
+    @Published var hiValue: Double  = 80.0
+    
+    
+    init() {
+        getLowValue()
+        getMidValue()
+        getHiValue()
+    }
+    
+    
+    // --------------------------------------------------------
+    // MARK: - Save/Get ProgressView lowValue threshold setting
+    func saveLowValue() {
+        lowValueSetting = lowValue
+    }
+    
+    func getLowValue() {
+        lowValue = lowValueSetting
+    }
+    
+    
+    // --------------------------------------------------------
+    // MARK: - Save/Get ProgressView midValue threshold setting
+    func saveMidValue() {
+        midValueSetting = midValue
+    }
+    
+    func getMidValue() {
+        midValue = midValueSetting
+    }
+    
+    
+    // --------------------------------------------------------
+    // MARK: - Save/Get ProgressView hiValue threshold setting
+    func saveHiValue() {
+        hiValueSetting = hiValue
+    }
+    
+    func getHiValue() {
+        hiValue = hiValueSetting
+    }
+}
+```
+<br></br>
+
+
+### Linear ProgressViews that are thicker in style:
+```swift
+struct LinearProgressView: View {
+    @EnvironmentObject var progressThresholds: ProgressThresholds
+    
+    @Binding var progress: Double
+    let width: Double
+    
+    @State private var lowValue: Double = 0.3
+    @State private var midValue: Double = 0.8
+    @State private var hiValue: Double  = 0.81
+    
+    
+    
+    var strokeColor: Color {
+        switch progress {
+        case 0..<lowValue:          Color.red
+        case lowValue...midValue:   Color.yellow
+        case hiValue...:            Color.green
+        default:                    Color.blue
         }
-        setMiddleVCSplitViewItems(topVC: middleVCs.graph, bottomVC: middleVCs.list)
     }
     
-    
-    /// Sets up Library Graph and Library FoodList view controllers.
-    ///
-    /// A "mini" library of all_SRRFoods_library is loaded from disk.
-    func libraryGraphAndFoodListVCs() -> (FBMiddleGraphVC, FBMiddleListVC) {
-        let graphVC             = FBLibraryGraphVC(chartView: FBPieGraphView(frame: .zero))
-        let graphTopToolBarVC   = FBGraphTopToolBarVC(identifier: .topToolBarVCID_libraryGraph)
-        
-        let listVC              = FBLibraryListVC(fdrfoods: all_FDRFoods_library,
-                                                  identifier: .listVCID_library)
-        let listTopToolBarVC    = FBLibraryListTopToolBarVC()
-        let listBottomToolBarVC = FBFoodListBottomToolBarVC(popUpTitles: kFoodCategoryName.allNames)
-        
-        setGraphVC_FoodListVC_infoPanel_Delegates(graphVC: graphVC, 
-                                                  graphTopToolBarVC: graphTopToolBarVC,
-                                                  listVC: listVC,
-                                                  listTopToolBarVC: listTopToolBarVC,
-                                                  listBottomToolBarVC: listBottomToolBarVC)
-        
-        let topVC               = FBMiddleGraphVC(graphVC: graphVC, 
-                                                  topToolBarVC: graphTopToolBarVC,
-                                                  foodListTopToolBarVC: listTopToolBarVC)
-        let bottomVC            = FBMiddleListVC(listVC: listVC,
-                                                 topToolBarVC: listTopToolBarVC,
-                                                 bottomToolBarVC: listBottomToolBarVC)
-        return (topVC, bottomVC)
+    var body: some View {
+        ProgressView(value: progress, total: 1.0)
+            .progressViewStyle(ThickProgressViewStyle(width: width))
+            .tint(strokeColor)
+            .task {
+                lowValue = progressThresholds.lowValue / 100
+                midValue = progressThresholds.midValue / 100
+                hiValue = progressThresholds.hiValue / 100
+            }
     }
-    ... ...
+}
+
+/// - Note: Unable to change the frame height alone, so use the .scaleEffect together with the .frame height and .clipShape, instead. Note, the drawbrack is that you can't include a label without also stretching it.
+struct ThickProgressViewStyle: ProgressViewStyle {
+    let width: Double
+    func makeBody(configuration: Configuration) -> some View {
+        ProgressView(configuration)
+            .progressViewStyle(.linear)
+            .frame(width: width, height: 10.0)
+            .scaleEffect(x: 1, y: 10, anchor: .center)
+//            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .clipShape(Capsule())
+    }
 ```
 <br></br>
 
