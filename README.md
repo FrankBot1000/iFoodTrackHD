@@ -379,15 +379,15 @@ struct ThickProgressViewStyle: ProgressViewStyle {
 * Random Generation of Sample Test Data
 * Text Input Validation
 
-#### Security
-* Validation checks, in Assembly
+#### Accessibility
+* Light and Dark Mode Selections
+* VoiceOver Accessibility (buttons & charts)
 
 #### User Customizations
 * Settings Startup Options
 * Unit Conversions
 * Theme Colors
 * Custom Threshold Values
-* Light and Dark Mode Selections
 
 #### Project Organization
 * Code Documentation (DocC)
