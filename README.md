@@ -42,16 +42,18 @@ Currently, the mac version has more features, like file saving/exporting capabil
 
 [//]: # "For webpage, use embedded below figure instead"
 <!-- 
-<figure>
-	<div>
-		<video width="500" controls poster="videos/02b iFTiPad Favorites Restaurant Fish Fillet ABS 051725.png" muted preload="auto">
-			<source src="videos/iFTiPadOS_iPad12_9inch_landscape_compressed.mp4" type="video/mp4">
-			<!- - For non-HTML5 browsers: - ->
-			Your browser doesn't support the video tag. Click <a href=http://www.firefox.com>here</a> 
-			to download the Firefox browser for your operating system.
-		</video>
-	</div>
-</figure>
+ <div style="display: inline-block">
+     <figure>
+         <div>
+             <video width="500" controls poster="videos/01a2 iFTiPadOS26 Diary Milk Pie Chart PB.png" muted preload="auto">
+                 <source src="videos/iFTiPadOS26_iPad12_9inch landscape compressed 092925.mp4" type="video/mp4">
+                 <!- - For non-HTML5 browsers: - ->
+                     Your browser doesn't support the video tag. Click <a href=http://www.firefox.com>here</a>
+                     to download the Firefox browser for your operating system.
+             </video>
+         </div>
+     </figure>
+ </div>
  -->
 
 # Rebuilding a macOS AppKit project as an iPadOS SwiftUI project...
@@ -330,30 +332,30 @@ struct ThickProgressViewStyle: ProgressViewStyle {
 
 # Sample Screen Shots
 <table>
-	<tr>
-		<td>
-		<img src="images/screenshots/01 Log Meals In Your Food Diary 051725b.png" alt="iFoodTrack Diary View" width="500"/>
-		</td>
-		<td>
-		<img src="images/screenshots/02 Search Foods and Save Favorites 051725b.png" alt="iFoodTrack Diary Dark" width="500"/>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<img src="images/screenshots/03 Create Meals for Quick Logging 051725b.png" alt="iFoodTrack Time Chart" width="500"/>
-		</td>
-		<td>
-		<img src="images/screenshots/04 View Daily Weekly Monthly Charts 051725b.png" alt="iFoodTrack Trash View" width="500"/>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<img src="images/screenshots/05 Fine-Tune Nutrient Settings and Look 051725b.png" alt="Settings Appearance" width="500"/>
-		</td>
-		<td>
-		<img src="images/screenshots/06 Customize Look Switch to Dark Mode 051725b.png" alt="Settings Advanced" width="500"/>
-		</td>
-	</tr>
+    <tr>
+        <td>
+            <img src="images/screenshots/02 iPadOS26 Add Meals to Your Food Diary 092925.png" alt="Add Meals to Your Food Diary" width="500" />
+        </td>
+        <td>
+            <img src="images/screenshots/03 iPadOS26 Create Meals for Quick Logging 092925.png" alt="Create Meals for Quick Logging" width="500" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="images/screenshots/04 iPadOS26 Discover Foods Save Favorites 092925.png" alt="Discover Foods Save Favorites" width="500" />
+        </td>
+        <td>
+            <img src="images/screenshots/05 iPadOS26 View Detailed Meal Nutrition 092925.png" alt="View Detailed Meal Nutrition" width="500" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="images/screenshots/06 iPadOS26 Customize Nutrition Goals and Tracking 092925.png" alt="Customize Nutrition Goals and Tracking" width="500" />
+        </td>
+        <td>
+            <img src="images/screenshots/07 iPadOS26 Accessibility VoiceOver and DarkMode 092925.png" alt="Accessibility VoiceOver and DarkMode" width="500" />
+        </td>
+    </tr>
 </table>
 
 
