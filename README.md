@@ -1,5 +1,5 @@
-# iFoodTrack HD
-iFoodTrack HD is the iPad version of my iFoodTrack macOS App (Swift/AppKit), built from the ground up using Swift and SwiftUI and designed in the simplist possible way with the iPad's touch interface in mind. It also integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals, build a food diary and track nutrient and food count totals in charts. 
+# iFoodTrack Daily
+iFoodTrack Daily is the iPad version of my iFoodTrack macOS App (Swift/AppKit), built from the ground up using Swift and SwiftUI and designed in the simplist possible way with the iPad's touch interface in mind. It also integrates the USDA FoodCentral database. You can look up food details, save favorites, create meals, build a food diary and track nutrient and food count totals in charts. 
 
 Like the macOS version, it is organized with a left navigation bar, a middle detail view, for charts and lists, and a right extended details view. However, the right view describes the nutrient data for the currently selected item in the food list, or describes the current food totals for a selected diary date, instead of describing averages and nutrient trends.
 
@@ -32,7 +32,7 @@ Currently, the mac version has more features, like file saving/exporting capabil
 <br></br>
 
 
-# iFoodTrack HD Animation
+# iFoodTrack Daily Animation
 [//]: # "NB: For README.md Github videos, Use GitHub asset urls eg. https://github.com/user-attachments/assets/xxxxxPlaceholderFileNameHerexxxxx as video source (derived first by dragging-dropping a video within the README.md file to get the url)."
 <video width="500" src="https://github.com/user-attachments/assets/216ec31b-b227-4491-8f4f-d80cedd22189">
 </video>
